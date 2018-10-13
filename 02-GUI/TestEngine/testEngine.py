@@ -1,6 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import pymysql
 
-class Ui_MainWindow(object):
+connection = pymysql.connect(host = 'localhost',
+                            port = 3306,
+                            user = 'root',
+                            db = 'testEngine_2',
+                            autocommit = True)
+
+cursor = connection.cursor()
+
+class Ui_MainWindow(QtWidgets.QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1265, 802)
@@ -163,13 +173,53 @@ class Ui_MainWindow(object):
 
         self.pushButton_2.clicked.connect(self.showRegister)
         self.pushButton.clicked.connect(self.showLogin)
+        self.pushButton_3.clicked.connect(self.registerUser)
 
     def showRegister(self):
         self.register_frame.show()
+        # self.registerUser()
 
     def showLogin(self):
         self.register_frame.show()
         self.login_frame.show()
+        # self.loginUser()
+
+    def registerUser(self):
+        try:
+            user = self.comboBox_2.currentText()
+            # print(user)
+            user_id = self.lineEdit.text()
+            user_name = self.lineEdit_2.text()
+            user_course = self.comboBox_3.currentText()
+            user_pwd = self.lineEdit_4.text()
+
+            if user == 'Student':
+                query = 'INSERT INTO students VALUES (%s, %s, %s, %s)'
+            else:
+                query = 'INSERT INTO teachers VALUES (%s, %s, %s, %s)'
+
+            cursor.execute(query, (user_id, user_name, user_course, user_pwd))
+            QMessageBox.about(self,"Success","Data Inserted Successfully...")
+
+        except BaseException as ex:
+            print(ex)
+
+    def loginUser(self):
+        try:
+            user = self.comboBox_2.currentText()
+            # print(user)
+            user_id = self.lineEdit_3.text()
+            user_pwd = self.lineEdit_5.text()
+
+            if user == 'Student':
+                query = 'SELECT * FROM students WHERE s_id = %s AND s_pwd = %s'
+            else:
+                query = 'SELECT * FROM teachers WHERE t_id = %s AND t_pwd = %s'
+
+            cursor.execute(query, (user_id, user_pwd))
+
+        except BaseException as ex:
+            print(ex)
 
 if __name__ == "__main__":
     import sys
