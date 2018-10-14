@@ -11,6 +11,9 @@ connection = pymysql.connect(host = 'localhost',
 cursor = connection.cursor()
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
+
+    count = 0
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1265, 802)
@@ -376,6 +379,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.pushButton_4.clicked.connect(self.loginUser)
         self.pushButton_5.clicked.connect(self.checkLogin)
         self.pushButton_6.clicked.connect(self.insertQuestion)
+        self.pushButton_7.clicked.connect(self.homeScreen)
+        self.pushButton_8.clicked.connect(self.startTest)
+        self.pushButton_9.clicked.connect(self.nextQuestion)
+
+    def homeScreen(self):
+        self.register_frame.hide()
 
     def showRegister(self):
         self.register_frame.show()
@@ -472,6 +481,34 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.teacherFrame()
         except BaseException as ex:
             print(ex)
+
+    def startTest(self):
+        self.frame_6.show()
+        self.frame_7.hide()
+        sub = self.comboBox_4.currentText()
+        query = "SELECT * FROM questions WHERE subject = %s"
+        cursor.execute(query, (sub))
+        self.max = cursor.rowcount
+        self.data = cursor.fetchall()
+        self.showQuestion()
+
+    def showQuestion(self):
+        if self.count < self.max:
+            for i in range(self.count + 1):
+                self.label_16.setText(self.data[i][0])
+                self.radioButton.setText(self.data[i][1])
+                self.radioButton_2.setText(self.data[i][2])
+                self.radioButton_3.setText(self.data[i][3])
+                self.radioButton_4.setText(self.data[i][4])
+        else:
+            self.showResult()
+
+    def nextQuestion(self):
+        self.count += 1
+        self.showQuestion()
+
+    def showResult(self):
+        self.frame_7.show()
 
 if __name__ == "__main__":
     import sys
