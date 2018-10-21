@@ -1,12 +1,32 @@
-#!C:/Python36/python.exe
+import cgi
+import json
 import header
-import content
 
-reg = False
-header.head(reg,"")
+form = cgi.FieldStorage()
+product = form.getvalue('product')
 
-content.products()
+header.head(False, "")
 
+print("""
+<div class='container'>
+<h1>Search Result for {}</h1>
+<hr>
+<ul style='display:flex; flex-wrap:wrap;'>
+""".format(product))
+
+with open('data.json') as file:
+    data = json.load(file)
+
+    for row in data:
+        if product.lower() in row['p_name'].lower():
+            print("""<li class='list-group-item'> <img src={} class='pImage' style='width:50%;'>
+                                        <p>{} Price : {}</p>
+                                </li>"""
+                  .format(row['p_image'], row['p_name'], row['p_price']))
+print("""
+</ul>
+</div>
+""")
 print("""
 <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

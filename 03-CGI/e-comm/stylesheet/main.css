@@ -1,0 +1,21 @@
+body {
+    background-color: lightgray;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+.products li {
+    width: 30%;
+    /*background-color: blue;*/
+    margin: 0px 10px 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+img {
+    width: 50%;
+    min-height: 100px;
+    max-height: 300px;
+}
