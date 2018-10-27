@@ -1,0 +1,19 @@
+1. Install MongoDB
+2. Go to bin folder of mongo db
+3. Open cmd at that location
+4. type mongod.exe
+5. mongod.exe --dbpath "C:\Users\asus\Documents\MongoData"
+6. Open another cmd at same location
+7. type mongo.exe
+--------------------------------------------
+Database commands
+1. show dbs - show all databases
+2. use dbname - to go inside any database or to switch database
+3. show collections - to see all collection present in that particular database
+4. db.collectioname.find() - select all data from that collection
+5. db.collectioname.find().pretty() - show data in proper format
+
+
+6. db.createCollection("products") - create collection
+7. db.products.insert({"p_id":101,"p_name":"Apple","p_price":45000}) - insert data into collection
+
