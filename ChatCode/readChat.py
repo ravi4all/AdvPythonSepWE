@@ -1,8 +1,15 @@
 import json
 
+def insertUser(username):
+    file = open('data_1.json')
+    chatData = json.load(file)
+    chatData.append({username:[]})
+    file.close()
+    updateJson(chatData)
+
 def readAllUsers():
     users = []
-    file = open('data.json')
+    file = open('data_1.json')
     chatData = json.load(file)
     # print("JSON Reading")
     for i in range(len(chatData)):
@@ -14,7 +21,7 @@ def readAllUsers():
 
 def readChatData(userName = None):
     chat = []
-    file = open('data.json')
+    file = open('data_1.json')
     chatData = json.load(file)
     for data in chatData:
         for key in data.keys():
@@ -37,7 +44,7 @@ def insertMessage(userName, msg, rply):
         updatedChat[0].append(msg)
         updatedChat[0].append(rply)
 
-    file = open('data.json')
+    file = open('data_1.json')
     chatData = json.load(file)
     for i in range(len(chatData)):
         for key in chatData[i].keys():
@@ -49,10 +56,10 @@ def insertMessage(userName, msg, rply):
     return chatData
 
 def updateJson(obj):
-    file = open('data.json', 'w')
+    file = open('data_1.json', 'w')
     json.dump(obj, file)
     file.close()
 
-msg = {'msg':'hello ram how are you ?'}
-rply = {'rply':''}
-insertMessage('Ram',msg,rply)
+# msg = {'msg':'hello ram how are you ?'}
+# rply = {'rply':''}
+# insertMessage('Ram',msg,rply)
